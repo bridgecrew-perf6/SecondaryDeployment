@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Excel" format="excel">
+      <types:shape format="weave"><![CDATA[%dw 2.0
+
+type Excel = {|
+  Sheet1?: Array<{|    "First Name": String,     "Last Name": String,     Gender: String,     Country: String,     Age: String,     Date: String,     Id: Number  |}>
+|}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="Multi_Json" format="json">
+      <types:shape format="weave" example="examples/jsonff-2.json"><![CDATA[%dw 2.0
+
+type Multi_Json = Array<{|  first_name: String,   last_name: String,   gender: String,   country: String,   age: Number {"typeId": "int"},   date: String,   id: Number {"typeId": "int"}|}> {"example": "[{\\\"first_name\\\":\\\"Saikiran\\\",\\\"last_name\\\":\\\"Edla\\\",\\\"gender\\\":\\\"M\\\",\\\"country\\\":\\\"India\\\",\\\"age\\\":45,\\\"date\\\":\\\"15-09-1995\\\",\\\"id\\\":101},{\\\"first_name\\\":\\\"Saikiran\\\",\\\"last_name\\\":\\\"Edla\\\",\\\"gender\\\":\\\"M\\\",\\\"country\\\":\\\"India\\\",\\\"age\\\":45,\\\"date\\\":\\\"15-09-1995\\\",\\\"id\\\":101}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#b385085a-3432-4ec8-97b9-35f5a5d1dd2b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="Excel"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Multi_Json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
